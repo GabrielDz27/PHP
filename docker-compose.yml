@@ -13,8 +13,12 @@ services:
     image: mysql:8.0
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: root_password_segura
-      MYSQL_DATABASE: meu_banco_de_dados
+      MYSQL_ROOT_PASSWORD: estudo1234
+      MYSQL_DATABASE: estudo
+      MYSQL_USER: user
+      MYSQL_PASSWORD: senha
+    ports:
+      - "3307:3307"
     volumes:
       - dbdata:/var/lib/mysql
     
