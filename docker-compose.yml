@@ -1,13 +1,14 @@
 version: '3.8'
 services:
   app:
-    image: php:8.2-apache
+    build: .
     volumes:
       - ./src:/var/www/html/
     ports:
       - "8080:80"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   
   db:
     image: mysql:8.0
@@ -18,9 +19,14 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: senha
     ports:
-      - "3307:3307"
+      - "3307:3306"
     volumes:
       - dbdata:/var/lib/mysql
-    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      
 volumes:
   dbdata:
